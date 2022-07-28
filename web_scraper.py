@@ -100,25 +100,22 @@ def strength_of_schedule(): #finding each teams strength of schedule in 2022-202
 def team_passing(): #finding the passing stats of each team
     csv_file = open('team_passing.csv', 'w', newline = '')
     csv_writer = csv.writer(csv_file)
-    csv_writer.writerow(['Team', 'Passing Yards', 'Touchdowns'])
+    csv_writer.writerow(['Team', 'Passing Yards', 'Touchdowns', 'Y/R'])
 
     #using a football API to get JSON data for team passing stats
     headers = {"X-RapidAPI-Key": "c2c317b721msh130b59a39209c44p1e3a6fjsnc8102dec7b4d",
-	    "X-RapidAPI-Host": "nfl-team-stats.p.rapidapi.com"}
-    response = requests.get('https://nfl-team-stats.p.rapidapi.com/v1/nfl-stats/teams/passing-stats/offense/2021', headers=headers).text
-    
+        "X-RapidAPI-Host": "nfl-team-stats.p.rapidapi.com"}
+    response = requests.get("https://nfl-team-stats.p.rapidapi.com/v1/nfl-stats/teams/receiving-stats/offense/2021", headers=headers).text
+
     #taking the JSON response in string form, and turning it into a python dictionary
     json_data = json.loads(response)
     
     #parsing through the JSON data to turn it into a CSV file
-    for i in json_data:
-        team_stats = [i['name'], i['passYards'], i['touchdowns']]
+    for team in json_data:
+        team_stats = [team['name'], team['touchdowns'], team['yards'], round(team['yards']/team['receives'], 2)]
         csv_writer.writerow(team_stats)
 
     csv_file.close()
-
-def team_receiving():
-    pass
 
 def team_rushing():
     pass
