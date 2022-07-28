@@ -118,10 +118,30 @@ def team_receiving(): #finding the receiving stats of each team
     csv_file.close()
 
 def team_passing():
-    pass
+    source = requests.get('https://www.nfl.com/stats/team-stats/offense/passing/2021/reg/all').text
+    soup = BeautifulSoup(source, 'lxml')
+
+    #csv_file = open('team_passing.csv', 'w', newline = '')
+    #csv_writer = csv.writer(csv_file)
+    #csv_writer.writerow(['Team', 'QBR', 'Completion Percentage', 'Y/A', 'Interceptions', 'Sacks', 'Sack Yards']) 
+
+    parser = soup.find()
+
+    #csv_file.close()
 
 def team_rushing():
-    pass
+    source = requests.get('https://www.nfl.com/stats/team-stats/offense/rushing/2021/reg/all').text
+    soup = BeautifulSoup(source, 'lxml')
 
-def turnovers():
+    #csv_file = open('team_rushing', 'w', newline = '')
+    #csv_writer = csv.writer(csv_file)
+    #csv_writer.writerow(['Team', 'Rushing Yards', 'Touchdowns', 'YPC', 'Fumbles']) 
+
+    parser = soup.find()
+
+    #csv_file.close()
+
+def turnovers(interceptions, fumbles, sacks, sack_yards):
+    #send data here from team passing and team rushing
+    #sacks aren't turnovers but they reduce offensive efficiency
     pass
