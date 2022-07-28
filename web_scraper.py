@@ -97,10 +97,10 @@ def strength_of_schedule(): #finding each teams strength of schedule in 2022-202
     
     csv_file.close()
 
-def team_passing(): #finding the passing stats of each team
-    csv_file = open('team_passing.csv', 'w', newline = '')
+def team_receiving(): #finding the receiving stats of each team
+    csv_file = open('team_receiving.csv', 'w', newline = '')
     csv_writer = csv.writer(csv_file)
-    csv_writer.writerow(['Team', 'Passing Yards', 'Touchdowns', 'Y/R'])
+    csv_writer.writerow(['Team', 'Receiving Yards', 'Touchdowns', 'Y/R'])
 
     #using a football API to get JSON data for team passing stats
     headers = {"X-RapidAPI-Key": "c2c317b721msh130b59a39209c44p1e3a6fjsnc8102dec7b4d",
@@ -116,6 +116,9 @@ def team_passing(): #finding the passing stats of each team
         csv_writer.writerow(team_stats)
 
     csv_file.close()
+
+def team_passing():
+    pass
 
 def team_rushing():
     pass
