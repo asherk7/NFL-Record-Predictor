@@ -168,9 +168,26 @@ def turnovers(): #finding each teams turnovers and offensive blunders
     csv_file = open('turnovers.csv', 'w', newline = '')
     csv_writer = csv.writer(csv_file)
     csv_writer.writerow(['Team', 'Interceptions', 'Sacks', 'Sack Yards', 'Fumbles'])
-    
+
     for p, r in zip(passing, rushing):
         p.extend([r[1]])
         csv_writer.writerow(p)
+
+    csv_file.close()
+
+def age(): #finding the average age of each team, since younger players get better over time
+    source = requests.get('https://www.phillyvoice.com/ranking-nfl-teams-age-after-53-man-cutdowns-jets-bears-texans-eagles-2021-edition/').text
+    soup = BeautifulSoup(source, 'lxml')
+
+    csv_file = open('average_age.csv', 'w', newline = '')
+    csv_writer = csv.writer(csv_file)
+    csv_writer.writerow(['Team', 'Average Age'])
+
+    parser = soup.find('tbody')
+    for team in parser.find_all('tr'):
+        team_age = team.find_all('td')
+        if team_age[0].text == 'Team':
+            continue
+        csv_writer.writerow([team_age[0].text, team_age[1].text[:4]])
 
     csv_file.close()
