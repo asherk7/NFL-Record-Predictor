@@ -1,5 +1,5 @@
 # NFL Record Predictor: Project Overview 
-#### -- Project Status: Active
+#### Project Status: Active
 
 * Created a tool that predicts each NFL team's record for the upcoming 2022-2023 season to get an idea of which teams to keep an eye on
 * Scraped the data for each NFL team from multiple sources using python and beautifulsoup4
