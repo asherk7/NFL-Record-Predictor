@@ -8,13 +8,13 @@
 * Building a website using Flask and deploying it using Heroku
 
 ## Code and Resources Used 
-**Technologies:** python, html, css, bootstrap, api
-**Packages:** flask, sci-kit learn, sqlalchemy, beautifulsoup4, requests, csv, json
-**Flask:** https://www.youtube.com/watch?v=Z1RJmh_OqeA&ab_channel=freeCodeCamp.org
-**Machine Learning:** https://www.kaggle.com/learn/intro-to-machine-learning
-**Web Scraping:** https://www.youtube.com/watch?v=ng2o98k983k&ab_channel=CoreySchafer
-**HTML:** https://www.w3schools.com/html/ 
-**CSS:** https://www.w3schools.com/css/
+**Technologies:** python, html, css, bootstrap, api  
+**Packages:** flask, sci-kit learn, sqlalchemy, beautifulsoup4, requests, csv, json  
+**Flask:** https://www.youtube.com/watch?v=Z1RJmh_OqeA&ab_channel=freeCodeCamp.org  
+**Machine Learning:** https://www.kaggle.com/learn/intro-to-machine-learning  
+**Web Scraping:** https://www.youtube.com/watch?v=ng2o98k983k&ab_channel=CoreySchafer  
+**HTML:** https://www.w3schools.com/html/  
+**CSS:** https://www.w3schools.com/css/  
 
 ## Web Scraping
 Used the web scraper above to scrape data for each NFL team, getting the following:
