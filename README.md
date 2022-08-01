@@ -2,13 +2,13 @@
 #### Project Status: Active
 
 * Created a tool that predicts each NFL team's record for the upcoming 2022-2023 season
-* Scraped the data for each NFL team from multiple sources using python and beautifulsoup4
+* Scraped the data for each NFL team from multiple sources using Python and BeautifulSoup4
 * Creating a website using Flask, HTML, CSS, Jinja, and Bootstrap to display the predictions and data
 * Model that will be used will use the Multiple Linear Regression model to use multiple impactful statistics to get the best outcome
 * Building a website using Flask and deploying it using Heroku
 
 ## Code and Resources Used 
-**Technologies:** python, html, css, bootstrap, api's
+**Technologies:** python, html, css, bootstrap, api
 **Packages:** flask, sci-kit learn, sqlalchemy, beautifulsoup4, requests, csv, json
 **Flask:** https://www.youtube.com/watch?v=Z1RJmh_OqeA&ab_channel=freeCodeCamp.org
 **Machine Learning:** https://www.kaggle.com/learn/intro-to-machine-learning
