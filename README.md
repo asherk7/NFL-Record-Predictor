@@ -59,4 +59,4 @@ N/A (will use Multiple Linear Regression)
 
 ## Creator
 * Created this project [myself](https://github.com/asherk7) using previous knowledge and tutorials of the basics, and built upon that foundation to complete the final product
-* Inspired by [CaPredictor](https://github.com/AliRZ-02/CaPredictor) by [Ali Raza Zaidi](https://github.com/AliRZ-02)
+* Inspiration: [CaPredictor](https://github.com/AliRZ-02/CaPredictor) by [Ali Raza Zaidi](https://github.com/AliRZ-02)
