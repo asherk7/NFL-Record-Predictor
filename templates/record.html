@@ -1,11 +1,34 @@
 {% extends 'base.html' %}
 
 {% block head %}
-<title>NFL Record Predictor</title>
-<h1>page that shows predicted record using model and BleacherReports record prediction</h1>
+<title>
+    NFL Record Predictor
+</title>
+<h1>
+    page that shows predicted record using model and BleacherReports record prediction
+</h1>
 {% endblock %}
 
 {% block body %}
 <p>along with record prediction, show previous year's stats and record, along with upcoming strength of schedule</p>
 <p>ask user to input their own prediction for each nfl team on their seperate page</p>
+<div class="prediction">
+    <h1>User Prediction</h1>
+    <table> <!--table-->
+        <tr> <!--row-->
+            <th>Team</th> <!--row header-->
+            <th>User Prediction</th>
+        </tr>
+        {% for prediction in predictions %} <!--jinja for loop, grabbing the past entries in data base and adding them into the page-->
+            <tr>
+                <td>Team name(get from dropdown in main)</td> <!--content in rows-->
+                <td>{{ prediction.record }}</td> <!--grabbing record from object attribute prediction-->
+            </tr>
+    </table>
+    <form action="/records" methods="POST"> <!--creating a form-->
+        <input type="text" name="'prediction" id="prediction"> <!--creating 2 user inputs, one to enter a prediction and the other to submit it-->
+        <input type="submit" value="Add Prediction">
+    </form>
+</div>
+
 {% endblock %}

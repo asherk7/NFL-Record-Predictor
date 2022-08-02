@@ -4,6 +4,7 @@
 * Created a tool that predicts each NFL team's record for the upcoming 2022-2023 season
 * Scraped the data for each NFL team from multiple sources using Python and BeautifulSoup4
 * Creating a website using Flask, HTML, CSS, Jinja, and Bootstrap to display the predictions and data
+* Creating a database with SQLAlchemy and SQlite to store user inputs
 * Model that will be used will use the Multiple Linear Regression model to use multiple impactful statistics to get the best outcome
 * Building a website using Flask and deploying it using Heroku
 
@@ -47,12 +48,13 @@ N/A (will use Multiple Linear Regression)
 * I learned how to store the data scraped into CSV files
 * I learned how to create a website using Flask
 * I learned how to request API's and how to parse through the JSON data received
+* I learned how to implement databases using SQLAlchemy
+* I learned how to create a CRUD application
 * I became more knowledgeable with GIT
 * Will learn how to deploy it using Heroku
 * Will learn more advanced HTML and CSS
 * Will learn how to create machine learning models using sci-kit learn
 * Will learn how to implement Bootstrap and Jinja templates
-* Will learn how to implement databases using SQLAlchemy
 
 ## Productionization
 * The website is being deployed using Heroku
