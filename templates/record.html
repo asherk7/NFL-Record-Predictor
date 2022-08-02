@@ -1,12 +1,8 @@
 {% extends 'base.html' %}
 
 {% block head %}
-<title>
-    NFL Record Predictor
-</title>
-<h1>
-    page that shows predicted record using model and BleacherReports record prediction
-</h1>
+<title>NFL Record Predictor</title>
+<h1>page that shows predicted record using model and BleacherReports record prediction</h1>
 {% endblock %}
 
 {% block body %}
@@ -18,16 +14,23 @@
         <tr> <!--row-->
             <th>Team</th> <!--row header-->
             <th>User Prediction</th>
+            <th>Options</th>
         </tr>
         {% for prediction in predictions %} <!--jinja for loop, grabbing the past entries in data base and adding them into the page-->
             <tr>
                 <td>Team name(get from dropdown in main)</td> <!--content in rows-->
                 <td>{{ prediction.record }}</td> <!--grabbing record from object attribute prediction-->
+                <td><a href="/delete/{{prediction.id}}">Delete</a></td> <!--deleting a prediction-->
             </tr>
+        {% endfor %}
     </table>
-    <form action="/records" methods="POST"> <!--creating a form-->
-        <input type="text" name="'prediction" id="prediction"> <!--creating 2 user inputs, one to enter a prediction and the other to submit it-->
-        <input type="submit" value="Add Prediction">
+
+    <form action="/records" method="POST"> <!--creating a form-->
+        <input type="text" name="prediction" id="prediction" required> <!--creating 2 user inputs, one to enter a prediction and the other to submit it-->
+        <input type="submit" name="redirect" value="Add Prediction">
+    </form>
+    <form action="/records" method="POST">
+        <input type="submit" name="redirect" value="homepage">
     </form>
 </div>
 
