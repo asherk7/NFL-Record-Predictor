@@ -16,9 +16,9 @@
             <th>User Prediction</th>
             <th>Options</th>
         </tr>
-        {% for prediction in predictions %} <!--jinja for loop, grabbing the past entries in data base and adding them into the page-->
+        {% for team, prediction in team_prediction %} <!--jinja for loop, grabbing the past entries in data base and adding them into the page-->
             <tr>
-                <td>Team name(get from dropdown in main)</td> <!--content in rows-->
+                <td>{{ team.team }}</td> <!--content in rows-->
                 <td>{{ prediction.record }}</td> <!--grabbing record from object attribute prediction-->
                 <td><a href="/delete/{{prediction.id}}">Delete</a></td> <!--deleting a prediction-->
             </tr>
