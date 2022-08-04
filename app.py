@@ -22,7 +22,7 @@ class Record(db.Model): #creating a database for user record prediction
     record = db.Column(db.String(200), nullable = False)
     date_created = db.Column(db.DateTime, default=datetime.utcnow)
 
-    def __repr__(self): #returns the record everytime a new element is made
+    def __repr__(self): #returns a string representation of the object
         return '<prediction %r>' % self.id
 
 class Teams(db.Model):
@@ -33,20 +33,25 @@ class Teams(db.Model):
     def __repr__(self):
         return '<team %r>' % self.id
 
-@app.route('/', methods=['POST', 'GET']) #gives the route the method of getting data or posting data
+@app.route('/', methods=['POST', 'GET']) #gives the route options of receiving form data(post)
 def index(): #creating main route
-    if request.method == 'POST': #if being sent data
+    if request.method == 'POST': #if the route is being sent data
         if request.form['redirect'] == 'ML':
             return redirect('/ml_info')
 
         else:
-            user_pred = Record(record=request.form['predictions'])
-            team_data = Teams(team=request.form['teams']) #grabbing data from the forms(user input) and adding them to an instance
+            team_data = Teams(team=request.form['teams'])
+            record = request.form['predictions']
+            if record.replace('-', '').isdigit():
+                user_pred = Record(record=record)
+            else:
+                return 'Data was entered wrong' #make this a message on the website
+            
             try:
                 db.session.add(user_pred) #adding those instances to the database
                 db.session.add(team_data)
                 db.session.commit() #commiting the data to the session
-                return redirect('/') #sending user back to the page(get)
+                return redirect('/') #sending user back to the page
             except:
                 return 'There was an error adding your prediction'
 
