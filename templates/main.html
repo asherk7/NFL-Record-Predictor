@@ -6,46 +6,76 @@
 {% endblock %}
 
 {% block body %}
-<p>Include a dropdown with every NFL team and a button at the bottom that leads to ML info</p>
-<p>have the user select a team, enter a prediction for their record, click submit</p>
-<p>then be sent to the page showing the teams predicted record, and their prediction beside it(in a row using database)</p>
-<form action="/" method="POST">
-    <label for="teams">Choose a team:</label>
-    <select name="teams" id="teams">
-        <option value="Arizona Cardinals">Arizona Cardinals</option>
-        <option value="Atlanta Falcons">Atlanta Falcons</option>
-        <option value="Baltimore Ravens">Baltimore Ravens</option>
-        <option value="Buffalo Bills">Buffalo Bills</option>
-        <option value="Carolina Panthers">Carolina Panthers</option>
-        <option value="Chicago Bears">Chicago Bears</option>
-        <option value="Cincinnati Bengals">Cincinnati Bengals</option>
-        <option value="Cleveland Browns">Cleveland Browns</option>
-        <option value="Dallas Cowboys">Dallas Cowboys</option>
-        <option value="Denver Broncos">Denver Broncos</option>
-        <option value="Detroit Lions">Detroit Lions</option>
-        <option value="Green Bay Packers">Green Bay Packers</option>
-        <option value="Houston Texans">Houston Texans</option>
-        <option value="Indianapolis Colts">Indianapolis Colts</option>
-        <option value="Jacksonville Jaguars">Jacksonville Jaguars</option>
-        <option value="Kansas City Chiefs">Kansas City Chiefs</option>
-        <option value="Las Vegas Raiders">Las Vegas Raiders</option>
-        <option value="Los Angeles Chargers">Los Angeles Chargers</option>
-        <option value="Los Angeles Rams">Los Angeles Rams</option>
-        <option value="Miami Dolphins">Miami Dolphins</option>
-        <option value="Minnesota Vikings">Minnesota Vikings</option>
-        <option value="New England Patriots">New England Patriots</option>
-        <option value="New Orleans Saints">New Orleans Saints</option>
-        <option value="New York Giants">New York Giants</option>
-        <option value="New York Jets">New York Jets</option>
-        <option value="Philadelphia Eagles">Philadelphia Eagles</option>
-        <option value="Pittsburgh Steelers">Pittsburgh Steelers</option>
-        <option value="San Francisco 49ers">San Francisco 49ers</option>
-        <option value="Seattle Seahawks">Seattle Seahawks</option>
-        <option value="Tampa Bay Buccaneers">Tampa Bay Buccaneers</option>
-        <option value="Tennessee Titans">Tennessee Titans</option>
-        <option value="Washington Commanders">Washington Commanders</option>
-    </select>
-    <input type="submit" name="redirect" value="predictions">
-    <input type="submit" name="redirect" value="ML">
-</form>
+<div class="stats">
+    <h2>this is where team stats will go</h2>
+    <p>when redirected with a team, their stats will show here</p>
+    <p></p>
+</div>
+<div class="prediction">
+    <h1>User Prediction</h1>
+    {% if team_length|length < 1 %}
+    <h3>Add a prediction</h3>
+    {% else %}
+    <table> <!--table-->
+        <tr> <!--row-->
+            <th>Team</th> <!--row header-->
+            <th>User Prediction</th>
+            <th>ML Prediction</th>
+            <th>Options</th>
+        </tr>
+        {% for team, prediction in team_prediction %} <!--jinja for loop, grabbing the past entries in data base and adding them into the page-->
+            <tr>
+                <td>{{ team.team }}</td> <!--content in rows-->
+                <td>{{ prediction.record }}</td> <!--grabbing record from object attribute prediction-->
+                <td>ML prediction(coming soon)</td>
+                <td><a href="/delete/{{prediction.id}}">Delete</a></td> <!--deleting a prediction-->
+            </tr>
+        {% endfor %}
+    </table>
+    {% endif %}
+
+    <form action="/" method="POST"> <!--creates a form, action specifies where to send form data when submitted-->
+        <label for="teams">Choose a team:</label>
+        <select name="teams" id="teams">
+            <option value="Arizona Cardinals">Arizona Cardinals</option>
+            <option value="Atlanta Falcons">Atlanta Falcons</option>
+            <option value="Baltimore Ravens">Baltimore Ravens</option>
+            <option value="Buffalo Bills">Buffalo Bills</option>
+            <option value="Carolina Panthers">Carolina Panthers</option>
+            <option value="Chicago Bears">Chicago Bears</option>
+            <option value="Cincinnati Bengals">Cincinnati Bengals</option>
+            <option value="Cleveland Browns">Cleveland Browns</option>
+            <option value="Dallas Cowboys">Dallas Cowboys</option>
+            <option value="Denver Broncos">Denver Broncos</option>
+            <option value="Detroit Lions">Detroit Lions</option>
+            <option value="Green Bay Packers">Green Bay Packers</option>
+            <option value="Houston Texans">Houston Texans</option>
+            <option value="Indianapolis Colts">Indianapolis Colts</option>
+            <option value="Jacksonville Jaguars">Jacksonville Jaguars</option>
+            <option value="Kansas City Chiefs">Kansas City Chiefs</option>
+            <option value="Las Vegas Raiders">Las Vegas Raiders</option>
+            <option value="Los Angeles Chargers">Los Angeles Chargers</option>
+            <option value="Los Angeles Rams">Los Angeles Rams</option>
+            <option value="Miami Dolphins">Miami Dolphins</option>
+            <option value="Minnesota Vikings">Minnesota Vikings</option>
+            <option value="New England Patriots">New England Patriots</option>
+            <option value="New Orleans Saints">New Orleans Saints</option>
+            <option value="New York Giants">New York Giants</option>
+            <option value="New York Jets">New York Jets</option>
+            <option value="Philadelphia Eagles">Philadelphia Eagles</option>
+            <option value="Pittsburgh Steelers">Pittsburgh Steelers</option>
+            <option value="San Francisco 49ers">San Francisco 49ers</option>
+            <option value="Seattle Seahawks">Seattle Seahawks</option>
+            <option value="Tampa Bay Buccaneers">Tampa Bay Buccaneers</option>
+            <option value="Tennessee Titans">Tennessee Titans</option>
+            <option value="Washington Commanders">Washington Commanders</option>
+        </select>
+        <input type="text" name="predictions" id="predictions" required>
+        <input type="submit" name="redirect" value="add prediction">
+    </form>
+    <form action="/" method="POST">
+        <input type="submit" name="redirect" value="ML">
+    </form>
+</div>
+
 {% endblock %}

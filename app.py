@@ -1,6 +1,17 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
+
+"""
+To Do
+create a seperate file to grab data from csv files and return it in the form of a list
+then import the file here, when the user submits their prediction, use the function
+to get the data(based on the team), then send it to database
+then submit that data to the html file and use jinja to show it
+edit the csv files and make each team name the exact same throughout all files
+use jinja and send lists into main file containing teams from each division
+check if a team is in a division(list), and add it to a seperate table of that specific division
+"""
 
 app = Flask(__name__) #references this file
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///prediction.db' #creates database
@@ -22,17 +33,28 @@ class Teams(db.Model):
     def __repr__(self):
         return '<team %r>' % self.id
 
-@app.route('/', methods=['POST', 'GET'])
+@app.route('/', methods=['POST', 'GET']) #gives the route the method of getting data or posting data
 def index(): #creating main route
-    if request.method == 'POST':
-        if request.form['redirect'] == 'predictions':
-            team = request.form['teams'] #grabbing the team they selected
-            return redirect(url_for('records', team=team)) #use url_for if sending info from one route to another
-        else:
+    if request.method == 'POST': #if being sent data
+        if request.form['redirect'] == 'ML':
             return redirect('/ml_info')
 
+        else:
+            user_pred = Record(record=request.form['predictions'])
+            team_data = Teams(team=request.form['teams']) #grabbing data from the forms(user input) and adding them to an instance
+            try:
+                db.session.add(user_pred) #adding those instances to the database
+                db.session.add(team_data)
+                db.session.commit() #commiting the data to the session
+                return redirect('/') #sending user back to the page(get)
+            except:
+                return 'There was an error adding your prediction'
+
     else:
-        return render_template('main.html')
+        team = Teams.query.order_by(Teams.date_created).all() #ordering the teams database in the date created
+        prediction = Record.query.order_by(Record.date_created).all()
+        #query goes through everything in database and gets those that are apart of that class
+        return render_template('main.html', team_prediction=zip(team, prediction), team_length = team) #sending the data to the page to process and show
 
 @app.route('/ml_info', methods=['POST', 'GET'])
 def machinelearning():
@@ -41,49 +63,15 @@ def machinelearning():
     else:
         return render_template('ML_info.html')
 
-@app.route('/records', methods=['POST', 'GET']) #methods allow us to send data to webpage
-def records():
-    if request.method == 'POST': #if the user is posting something
-        if request.form['redirect'] == 'homepage': #used for multiple forms with name redirect
-            return redirect('/')
-        else:
-            user_content = request.form['prediction'] #id/name of the input
-            user_prediction = Record(record=user_content) #creating an object
-
-            try:
-                db.session.add(user_prediction) #adding user input to the database session
-                db.session.commit()
-                return redirect('/records') #redirecting back to the same page
-            except:
-                return 'There was an issue adding the prediction'
-
-    else:
-        try:
-            user_team = request.args['team'] #grabs info sent from other route
-            team_db = Teams(team=user_team)
-            db.session.add(team_db)
-            db.session.commit()
-        except:
-            pass
-        predictions = Record.query.order_by(Record.date_created).all() #grabs all the past predictions
-        teams = Teams.query.order_by(Teams.date_created).all()
-        return render_template('record.html', team_prediction=zip(teams, predictions)) #sends past inputs into the page to use
-
 @app.route('/delete/<int:id>') #routes to delete, and database's id
 def delete(id):
     prediction_delete = Record.query.get_or_404(id) #grabbing the unique id
     team_delete = Teams.query.get_or_404(id)
-
     try:
         db.session.delete(prediction_delete)
         db.session.delete(team_delete)
-        #del Record.query.get_or_404(id)
-        #hide bar when user enters prediction, only show when redirected again(like deleting)
-        #only delete record from database, so when they delete and enter again, it shows the same team
-        #do something about going between teams first then entering predictions
-        #also make it so their predictions are in a '#-#' format
         db.session.commit()
-        return redirect('/records')
+        return redirect('/')
     except:
         return 'There was a problem deleting that prediction'
 
