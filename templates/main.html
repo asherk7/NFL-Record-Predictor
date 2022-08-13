@@ -13,6 +13,9 @@
 </div>
 <div class="prediction">
     <h1>User Prediction</h1>
+    {% if error is defined %}
+    <h2>{{ error }}</h2> <!--use double curly brackets to use variables in jinja-->
+    {% endif %}
     {% if team_length|length < 1 %}
     <h3>Add a prediction in the format of W-L-T, numbers only(e.g. 13-4-0)</h3>
     {% else %}

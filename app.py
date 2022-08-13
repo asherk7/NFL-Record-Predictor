@@ -8,7 +8,7 @@ create a seperate file to grab data from csv files and return it in the form of 
 then import the file here, when the user submits their prediction, use the function
 to get the data(based on the team), then send it to database
 then submit that data to the html file and use jinja to show it
-edit the csv files and make each team name the exact same throughout all files
+
 use jinja and send lists into main file containing teams from each division
 check if a team is in a division(list), and add it to a seperate table of that specific division
 """
@@ -33,6 +33,13 @@ class Teams(db.Model):
     def __repr__(self):
         return '<team %r>' % self.id
 
+def error(message):
+    team = Teams.query.order_by(Teams.date_created).all() #ordering the teams database in the date created
+    prediction = Record.query.order_by(Record.date_created).all()
+    error_message = f'There was an error {message} the prediction. The data may have been entered in the wrong format.'
+    return render_template('main.html', team_prediction=zip(team, prediction), team_length = team, error=error_message) #sending the data to the page to process and show
+
+
 @app.route('/', methods=['POST', 'GET']) #gives the route options of receiving form data(post)
 def index(): #creating main route
     if request.method == 'POST': #if the route is being sent data
@@ -45,7 +52,7 @@ def index(): #creating main route
             if record.replace('-', '').isdigit():
                 user_pred = Record(record=record)
             else:
-                return 'Data was entered wrong' #make this a message on the website
+                return error('adding')
             
             try:
                 db.session.add(user_pred) #adding those instances to the database
@@ -53,7 +60,7 @@ def index(): #creating main route
                 db.session.commit() #commiting the data to the session
                 return redirect('/') #sending user back to the page
             except:
-                return 'There was an error adding your prediction'
+                return error('adding')
 
     else:
         team = Teams.query.order_by(Teams.date_created).all() #ordering the teams database in the date created
@@ -78,7 +85,7 @@ def delete(id):
         db.session.commit()
         return redirect('/')
     except:
-        return 'There was a problem deleting that prediction'
+        return error('deleting')
 
 if __name__ == '__main__':
     db.drop_all()
