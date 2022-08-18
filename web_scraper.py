@@ -191,3 +191,33 @@ def age(): #finding the average age of each team, since younger players get bett
         csv_writer.writerow([team_age[0].text, team_age[1].text[:4]])
 
     csv_file.close()
+
+def offensiveppg():
+    source = requests.get('https://www.teamrankings.com/nfl/stat/points-per-game').text
+    soup = BeautifulSoup(source, 'lxml')
+
+    csv_file = open('offensive_ppg.csv', 'w', newline='')
+    csv_writer=csv.writer(csv_file)
+    csv_writer.writerow(['Team', 'Offensive PPG'])
+    
+    parser = soup.find('tbody')
+    for team in parser.find_all('tr'):
+        teamstats = team.find_all('td')
+        csv_writer.writerow([teamstats[1].text, teamstats[2].text])
+
+    csv_file.close()
+
+def defensiveppg():
+    source = requests.get('https://www.teamrankings.com/nfl/stat/opponent-points-per-game').text
+    soup = BeautifulSoup(source, 'lxml')
+
+    csv_file = open('defensive_ppg.csv', 'w', newline='')
+    csv_writer=csv.writer(csv_file)
+    csv_writer.writerow(['Team', 'Defensive PPG'])
+
+    parser = soup.find('tbody')
+    for team in parser.find_all('tr'):
+        teamstats = team.find_all('td')
+        csv_writer.writerow([teamstats[1].text, teamstats[2].text])
+
+    csv_file.close()

@@ -11,35 +11,126 @@
     <p>when redirected with a team, their stats will show here</p>
     <p></p>
 </div>
+
 <div class="prediction">
     <h1>User Prediction</h1>
     {% if error is defined %}
-    <h2>{{ error }}</h2> <!--use double curly brackets to use variables in jinja-->
+        <h2>{{ error }}</h2> <!--use double curly brackets to use variables in jinja-->
     {% endif %}
+    
     {% if team_length|length < 1 %}
-    <h3>Add a prediction in the format of W-L-T, numbers only(e.g. 13-4-0)</h3>
+        <h3>Add a prediction in the format of W-L-T, numbers only(e.g. 13-4-0)</h3>
     {% else %}
-    <table> <!--table-->
-        <tr> <!--row-->
-            <th>Team</th> <!--row header-->
-            <th>User Prediction</th>
-            <th>ML Prediction</th>
-            <th>Options</th>
-        </tr>
-        {% for team, prediction in team_prediction %} <!--jinja for loop, grabbing the past entries in data base and adding them into the page-->
-            <tr>
-                <td>{{ team.team }}</td> <!--content in rows-->
-                <td>{{ prediction.record }}</td> <!--grabbing record from object attribute prediction-->
-                <td>ML prediction(coming soon)</td>
-                <td><a href="/delete/{{prediction.id}}">Delete</a></td> <!--deleting a prediction-->
+        <table class="table table-bordered"> <!--table-->
+            <tr> <!--row-->
+                <th>Team</th> <!--row header-->
+                <th>User Prediction</th>
+                <th>ML Prediction</th>
+                <th>Options</th>
             </tr>
-        {% endfor %}
-    </table>
+
+            <tr><th colspan="4">AFC East</th></tr>
+            {% for team, prediction in team_prediction %} <!--jinja for loop, grabbing the past entries in data base and adding them into the page-->
+                {% if team.team in divisions[0] %}
+                    <tr>
+                        <td>{{ team.team }}</td> <!--content in rows-->
+                        <td>{{ prediction.record }}</td> <!--grabbing record from object attribute prediction-->
+                        <td>ML prediction(coming soon)</td>
+                        <td><a href="/delete/{{prediction.id}}">Delete</a></td> <!--deleting a prediction-->
+                    </tr>
+                {% endif %}
+            {% endfor %}
+
+            <tr><th colspan="4">AFC North</th></tr>
+            {% for team, prediction in team_prediction %}
+                {% if team.team in divisions[1] %}
+                    <tr>
+                        <td>{{ team.team }}</td> 
+                        <td>{{ prediction.record }}</td> 
+                        <td>ML prediction(coming soon)</td>
+                        <td><a href="/delete/{{prediction.id}}">Delete</a></td> 
+                    </tr>
+                {% endif %}
+            {% endfor %}
+
+            <tr><th colspan="4">AFC South</th></tr>
+            {% for team, prediction in team_prediction %} 
+                {% if team.team in divisions[2] %}
+                    <tr>
+                        <td>{{ team.team }}</td>
+                        <td>{{ prediction.record }}</td>
+                        <td>ML prediction(coming soon)</td>
+                        <td><a href="/delete/{{prediction.id}}">Delete</a></td> 
+                    </tr>
+                {% endif %}
+            {% endfor %}
+
+            <tr><th colspan="4">AFC West</th></tr>
+            {% for team, prediction in team_prediction %} 
+                {% if team.team in divisions[3] %}
+                    <tr>
+                        <td>{{ team.team }}</td> 
+                        <td>{{ prediction.record }}</td> 
+                        <td>ML prediction(coming soon)</td>
+                        <td><a href="/delete/{{prediction.id}}">Delete</a></td>
+                    </tr>
+                {% endif %}
+            {% endfor %}
+
+            <tr><th colspan="4">NFC East</th></tr>
+            {% for team, prediction in team_prediction %}
+                {% if team.team in divisions[4] %}
+                    <tr>
+                        <td>{{ team.team }}</td> 
+                        <td>{{ prediction.record }}</td>
+                        <td>ML prediction(coming soon)</td>
+                        <td><a href="/delete/{{prediction.id}}">Delete</a></td>
+                    </tr>
+                {% endif %}
+            {% endfor %}
+
+            <tr><th colspan="4">NFC North</th></tr>
+            {% for team, prediction in team_prediction %}
+                {% if team.team in divisions[5] %}
+                    <tr>
+                        <td>{{ team.team }}</td> 
+                        <td>{{ prediction.record }}</td> 
+                        <td>ML prediction(coming soon)</td>
+                        <td><a href="/delete/{{prediction.id}}">Delete</a></td> 
+                    </tr>
+                {% endif %}
+            {% endfor %}
+
+            <tr><th colspan="4">NFC South</th></tr>
+            {% for team, prediction in team_prediction %} 
+                {% if team.team in divisions[6] %}
+                    <tr>
+                        <td>{{ team.team }}</td>
+                        <td>{{ prediction.record }}</td> 
+                        <td>ML prediction(coming soon)</td>
+                        <td><a href="/delete/{{prediction.id}}">Delete</a></td> 
+                    </tr>
+                {% endif %}
+            {% endfor %}
+
+            <tr><th colspan="4">NFC West</th></tr>
+            {% for team, prediction in team_prediction %} 
+                {% if team.team in divisions[7] %}
+                    <tr>
+                        <td>{{ team.team }}</td> 
+                        <td>{{ prediction.record }}</td> 
+                        <td>ML prediction(coming soon)</td>
+                        <td><a href="/delete/{{prediction.id}}">Delete</a></td>
+                    </tr>
+                {% endif %}
+            {% endfor %}
+
+        </table>
     {% endif %}
 
     <form action="/" method="POST"> <!--creates a form, action specifies where to send form data when submitted-->
         <label for="teams">Choose a team:</label>
-        <select name="teams" id="teams">
+        <select name="teams" id="teams" class="form-control" style="text-align: center" autocomplete="on">
             <option value="Arizona Cardinals">Arizona Cardinals</option>
             <option value="Atlanta Falcons">Atlanta Falcons</option>
             <option value="Baltimore Ravens">Baltimore Ravens</option>
@@ -73,6 +164,8 @@
             <option value="Tennessee Titans">Tennessee Titans</option>
             <option value="Washington Commanders">Washington Commanders</option>
         </select>
+        <!--make it so that its type is number, max is 17, min is 0, style is text-align: center-->
+        <!--have 3 boxes for win draw tie, send these numbers back in 1 message to look like an actual record(#-#-#)-->
         <input type="text" name="predictions" id="predictions" required>
         <input type="submit" name="redirect" value="add prediction">
     </form>

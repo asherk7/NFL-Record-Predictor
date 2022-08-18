@@ -1,21 +1,21 @@
 from flask import Flask, render_template, request, redirect
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
-
-"""
-To Do
-create a seperate file to grab data from csv files and return it in the form of a list
-then import the file here, when the user submits their prediction, use the function
-to get the data(based on the team), then send it to database
-then submit that data to the html file and use jinja to show it
-
-use jinja and send lists into main file containing teams from each division
-check if a team is in a division(list), and add it to a seperate table of that specific division
-"""
+from teamdata import team_data
 
 app = Flask(__name__) #references this file
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///prediction.db' #creates database
 db = SQLAlchemy(app) #initializes database with file
+divisions = [
+            ['Buffalo Bills', 'New York Jets', 'Miami Dolphins', 'New England Patriots'],
+            ['Cleveland Browns', 'Baltimore Ravens', 'Pittsburgh Steelers', 'Cincinnati Bengals'], 
+            ['Houstan Texans', 'Indianapolis Colts', 'Tennessee Titans', 'Jacksonville Jaguars'], 
+            ['Las Vegas Raiders', 'Denver Broncos', 'Kansas City Chiefs', 'Los Angeles Chargers'], 
+            ['New York Giants', 'Washington Commanders', 'Dallas Cowboys', 'Philadelphia Eagles'], 
+            ['Chicago Bears', 'Detroit Lions', 'Minnesota Vikings', 'Green Bay Packers'], 
+            ['Carolina Panthers', 'Atlanta Falcons', 'New Orleans Saints', 'Tampa Bay Buccaneers'], 
+            ['San Francisco 49ers', 'Arizona Cardinals', 'Los Angeles Rams', 'Seattle Seahawks'], 
+            ]
 
 class Record(db.Model): #creating a database for user record prediction
     id = db.Column(db.Integer, primary_key=True)
@@ -36,9 +36,8 @@ class Teams(db.Model):
 def error(message):
     team = Teams.query.order_by(Teams.date_created).all() #ordering the teams database in the date created
     prediction = Record.query.order_by(Record.date_created).all()
-    error_message = f'There was an error {message} the prediction. The data may have been entered in the wrong format.'
-    return render_template('main.html', team_prediction=zip(team, prediction), team_length = team, error=error_message) #sending the data to the page to process and show
-
+    error_message = f'There was an error {message} the prediction. The data may have been entered in the wrong format, or it may be a duplicate entry'
+    return render_template('main.html', team_prediction=list(zip(team, prediction)), team_length = team, error=error_message, divisions=divisions) #sending the data to the page to process and show
 
 @app.route('/', methods=['POST', 'GET']) #gives the route options of receiving form data(post)
 def index(): #creating main route
@@ -48,6 +47,9 @@ def index(): #creating main route
 
         else:
             team_data = Teams(team=request.form['teams'])
+            for teamname in Teams.query.order_by(Teams.date_created).all():
+                if team_data.team == teamname.team:
+                    return error('adding') #these lines prevent duplicates from being added
             record = request.form['predictions']
             if record.replace('-', '').isdigit():
                 user_pred = Record(record=record)
@@ -66,7 +68,8 @@ def index(): #creating main route
         team = Teams.query.order_by(Teams.date_created).all() #ordering the teams database in the date created
         prediction = Record.query.order_by(Record.date_created).all()
         #query goes through everything in database and gets those that are apart of that class
-        return render_template('main.html', team_prediction=zip(team, prediction), team_length = team) #sending the data to the page to process and show
+        return render_template('main.html', team_prediction=list(zip(team, prediction)), team_length = team, divisions=divisions) #sending the data to the page to process and show
+        #variable has to be sent in as a list in order to loop over it more than once, since an iterator can only loop once
 
 @app.route('/ml_info', methods=['POST', 'GET'])
 def machinelearning():
@@ -88,6 +91,6 @@ def delete(id):
         return error('deleting')
 
 if __name__ == '__main__':
-    db.drop_all()
+    db.drop_all() #resets the database
     db.create_all()
     app.run(debug=True)

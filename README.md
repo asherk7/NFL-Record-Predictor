@@ -25,6 +25,8 @@ Used the web scraper above to scrape data for each NFL team, getting the followi
 * Strength of Schedule
 * Money spent on each position(QB, WR, RB, OL, CB, LB, S, DL)
 * Money spent on offense and defense
+* Offensive PPG
+* Defensive points allowed
 * Team Completion Percentage
 * Yards per Passing Attempt
 * Yards per Reception
@@ -47,7 +49,7 @@ N/A (will use Multiple Linear Regression)
 * I learned how to scrape data from websites using BeautifulSoup4
 * I learned how to store the data scraped into CSV files
 * I learned how to create a website using Flask
-* I learned how to request API's and how to parse through the JSON data received
+* I learned how to work with API's and JSON's
 * I learned how to implement databases using SQLAlchemy
 * I learned how to create a CRUD application
 * I learned how to use Jinja and implement Bootstrap templates
