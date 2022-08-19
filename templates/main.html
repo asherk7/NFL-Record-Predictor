@@ -7,9 +7,16 @@
 
 {% block body %}
 <div class="stats">
-    <h2>this is where team stats will go</h2>
-    <p>when redirected with a team, their stats will show here</p>
-    <p></p>
+    {% if team_length|length > 0 %}
+    {% set stats = team_statistics[-1].teamstats.split(', ') %} <!--turning the string back into a list, use percent sign and set command-->
+    <h2>{{ stats[0] }}</h2>
+    <h3>Offensive PPG: {{ stats[1] }}</h3>
+    <h3>Defensive PPG: {{ stats[2] }}</h3>
+    <h3>Win Percentage: {{ stats[3] }}</h3>
+    <h3>Strength of schedule: {{ stats[4] }}</h3>
+    <h3>Passing Yards: {{ stats[5] }} & Passing Touchdowns: {{ stats[6] }}</h3>
+    <h3>Rushing Yards: {{ stats[7] }} & Rushing Touchdowns: {{ stats[8] }}</h3>
+    {% endif %}
 </div>
 
 <div class="prediction">
@@ -23,104 +30,104 @@
     {% else %}
         <table class="table table-bordered"> <!--table-->
             <tr> <!--row-->
-                <th>Team</th> <!--row header-->
-                <th>User Prediction</th>
-                <th>ML Prediction</th>
-                <th>Options</th>
+                <th style="text-align: center">Team</th> <!--row header-->
+                <th style="text-align: center">User Prediction</th>
+                <th style="text-align: center">ML Prediction</th>
+                <th style="text-align: center">Options</th>
             </tr>
 
-            <tr><th colspan="4">AFC East</th></tr>
+            <tr><th style="text-align: center" colspan="4">AFC East</th></tr>
             {% for team, prediction in team_prediction %} <!--jinja for loop, grabbing the past entries in data base and adding them into the page-->
                 {% if team.team in divisions[0] %}
                     <tr>
-                        <td>{{ team.team }}</td> <!--content in rows-->
-                        <td>{{ prediction.record }}</td> <!--grabbing record from object attribute prediction-->
-                        <td>ML prediction(coming soon)</td>
-                        <td><a href="/delete/{{prediction.id}}">Delete</a></td> <!--deleting a prediction-->
+                        <td style="text-align: center">{{ team.team }}</td> <!--content in rows-->
+                        <td style="text-align: center">{{ prediction.record }}</td> <!--grabbing record from object attribute prediction-->
+                        <td style="text-align: center">ML prediction(coming soon)</td>
+                        <td style="text-align: center"><a href="/delete/{{prediction.id}}">Delete</a></td> <!--deleting a prediction-->
                     </tr>
                 {% endif %}
             {% endfor %}
 
-            <tr><th colspan="4">AFC North</th></tr>
+            <tr><th style="text-align: center" colspan="4">AFC North</th></tr>
             {% for team, prediction in team_prediction %}
                 {% if team.team in divisions[1] %}
                     <tr>
-                        <td>{{ team.team }}</td> 
-                        <td>{{ prediction.record }}</td> 
-                        <td>ML prediction(coming soon)</td>
-                        <td><a href="/delete/{{prediction.id}}">Delete</a></td> 
+                        <td style="text-align: center">{{ team.team }}</td> 
+                        <td style="text-align: center">{{ prediction.record }}</td> 
+                        <td style="text-align: center">ML prediction(coming soon)</td>
+                        <td style="text-align: center"><a href="/delete/{{prediction.id}}">Delete</a></td> 
                     </tr>
                 {% endif %}
             {% endfor %}
 
-            <tr><th colspan="4">AFC South</th></tr>
+            <tr><th style="text-align: center" colspan="4">AFC South</th></tr>
             {% for team, prediction in team_prediction %} 
                 {% if team.team in divisions[2] %}
                     <tr>
-                        <td>{{ team.team }}</td>
-                        <td>{{ prediction.record }}</td>
-                        <td>ML prediction(coming soon)</td>
-                        <td><a href="/delete/{{prediction.id}}">Delete</a></td> 
+                        <td style="text-align: center">{{ team.team }}</td>
+                        <td style="text-align: center">{{ prediction.record }}</td>
+                        <td style="text-align: center">ML prediction(coming soon)</td>
+                        <td style="text-align: center"><a href="/delete/{{prediction.id}}">Delete</a></td> 
                     </tr>
                 {% endif %}
             {% endfor %}
 
-            <tr><th colspan="4">AFC West</th></tr>
+            <tr><th style="text-align: center" colspan="4">AFC West</th></tr>
             {% for team, prediction in team_prediction %} 
                 {% if team.team in divisions[3] %}
                     <tr>
-                        <td>{{ team.team }}</td> 
-                        <td>{{ prediction.record }}</td> 
-                        <td>ML prediction(coming soon)</td>
-                        <td><a href="/delete/{{prediction.id}}">Delete</a></td>
+                        <td style="text-align: center">{{ team.team }}</td> 
+                        <td style="text-align: center">{{ prediction.record }}</td> 
+                        <td style="text-align: center">ML prediction(coming soon)</td>
+                        <td style="text-align: center"><a href="/delete/{{prediction.id}}">Delete</a></td>
                     </tr>
                 {% endif %}
             {% endfor %}
 
-            <tr><th colspan="4">NFC East</th></tr>
+            <tr><th style="text-align: center" colspan="4">NFC East</th></tr>
             {% for team, prediction in team_prediction %}
                 {% if team.team in divisions[4] %}
                     <tr>
-                        <td>{{ team.team }}</td> 
-                        <td>{{ prediction.record }}</td>
-                        <td>ML prediction(coming soon)</td>
-                        <td><a href="/delete/{{prediction.id}}">Delete</a></td>
+                        <td style="text-align: center">{{ team.team }}</td> 
+                        <td style="text-align: center">{{ prediction.record }}</td>
+                        <td style="text-align: center">ML prediction(coming soon)</td>
+                        <td style="text-align: center"><a href="/delete/{{prediction.id}}">Delete</a></td>
                     </tr>
                 {% endif %}
             {% endfor %}
 
-            <tr><th colspan="4">NFC North</th></tr>
+            <tr><th style="text-align: center" colspan="4">NFC North</th></tr>
             {% for team, prediction in team_prediction %}
                 {% if team.team in divisions[5] %}
                     <tr>
-                        <td>{{ team.team }}</td> 
-                        <td>{{ prediction.record }}</td> 
-                        <td>ML prediction(coming soon)</td>
-                        <td><a href="/delete/{{prediction.id}}">Delete</a></td> 
+                        <td style="text-align: center">{{ team.team }}</td> 
+                        <td style="text-align: center">{{ prediction.record }}</td> 
+                        <td style="text-align: center">ML prediction(coming soon)</td>
+                        <td style="text-align: center"><a href="/delete/{{prediction.id}}">Delete</a></td> 
                     </tr>
                 {% endif %}
             {% endfor %}
 
-            <tr><th colspan="4">NFC South</th></tr>
+            <tr><th style="text-align: center" colspan="4">NFC South</th></tr>
             {% for team, prediction in team_prediction %} 
                 {% if team.team in divisions[6] %}
                     <tr>
-                        <td>{{ team.team }}</td>
-                        <td>{{ prediction.record }}</td> 
-                        <td>ML prediction(coming soon)</td>
-                        <td><a href="/delete/{{prediction.id}}">Delete</a></td> 
+                        <td style="text-align: center">{{ team.team }}</td>
+                        <td style="text-align: center">{{ prediction.record }}</td> 
+                        <td style="text-align: center">ML prediction(coming soon)</td>
+                        <td style="text-align: center"><a href="/delete/{{prediction.id}}">Delete</a></td> 
                     </tr>
                 {% endif %}
             {% endfor %}
 
-            <tr><th colspan="4">NFC West</th></tr>
+            <tr><th style="text-align: center" colspan="4">NFC West</th></tr>
             {% for team, prediction in team_prediction %} 
                 {% if team.team in divisions[7] %}
                     <tr>
-                        <td>{{ team.team }}</td> 
-                        <td>{{ prediction.record }}</td> 
-                        <td>ML prediction(coming soon)</td>
-                        <td><a href="/delete/{{prediction.id}}">Delete</a></td>
+                        <td style="text-align: center">{{ team.team }}</td> 
+                        <td style="text-align: center">{{ prediction.record }}</td> 
+                        <td style="text-align: center">ML prediction(coming soon)</td>
+                        <td style="text-align: center"><a href="/delete/{{prediction.id}}">Delete</a></td>
                     </tr>
                 {% endif %}
             {% endfor %}

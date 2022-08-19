@@ -102,7 +102,7 @@ def strength_of_schedule(): #finding each teams strength of schedule in 2022-202
 def team_receiving(): #finding the receiving stats of each team
     csv_file = open('team_receiving.csv', 'w', newline = '')
     csv_writer = csv.writer(csv_file)
-    csv_writer.writerow(['Team', 'Receiving Yards', 'Touchdowns', 'Y/R'])
+    csv_writer.writerow(['Team', 'Touchdowns', 'Receiving Yards', 'Y/R'])
 
     #using a football API to get JSON data for team passing stats
     headers = {"X-RapidAPI-Key": "c2c317b721msh130b59a39209c44p1e3a6fjsnc8102dec7b4d",
