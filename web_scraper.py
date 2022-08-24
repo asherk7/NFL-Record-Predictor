@@ -11,7 +11,7 @@ def projections(): #finding bleacherreports predictions for team records in 2022
     soup = BeautifulSoup(projections, 'lxml')
 
     #created a csv file to add the data to
-    csv_file = open('projections.csv', 'w', newline = '')
+    csv_file = open('bleacherreport_projections.csv', 'w', newline = '')
     csv_writer = csv.writer(csv_file)
     csv_writer.writerow(['Team', 'Record Prediction'])
 

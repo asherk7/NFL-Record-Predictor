@@ -1,0 +1,49 @@
+body{
+    text-align: center;
+    font-family: Tahoma, sans-serif;
+    background-color:whitesmoke;
+}
+
+footer{
+    background-color: rgb(1, 51, 105); /*colour code referenced from official NFL website*/
+    color:white;
+}
+
+h1{
+    text-align: center;
+    font-size: 100px;
+    margin-bottom: 0px;
+    font-weight: bold;
+    color: black;
+    background-image: url('../static/Images/stadium.jpg'); 
+    background-position: center 200px;
+}
+
+img{
+    align-items: center;
+}
+
+ label{
+    font-size: 30px;
+    font-weight: bold;
+ }
+
+input{
+    margin: 5px 5px 5px 5px;
+    padding: 5px;
+    font-weight: bold;
+    text-align: center;
+    background-color: rgb(245, 242, 242);
+}
+
+table{
+    text-align: center;
+}
+
+thead{
+    background-color:darkgray;
+}
+
+tbody{
+    background-color: lightgrey;
+}

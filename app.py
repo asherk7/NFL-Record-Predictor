@@ -1,7 +1,7 @@
-from flask import Flask, render_template, request, redirect
+from flask import Flask, render_template, request, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
-from teamdata import team_stats
+from teamdata import team_stats, BRprediction
 
 app = Flask(__name__) #references this file
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///prediction.db' #creates database
@@ -17,7 +17,7 @@ divisions = [
             ['San Francisco 49ers', 'Arizona Cardinals', 'Los Angeles Rams', 'Seattle Seahawks'], 
             ]
 
-class Record(db.Model): #creating a database for user record prediction
+class Record(db.Model): #database for user record prediction
     id = db.Column(db.Integer, primary_key=True)
     record = db.Column(db.String(200), nullable = False)
     date_created = db.Column(db.DateTime, default=datetime.utcnow)
@@ -25,10 +25,11 @@ class Record(db.Model): #creating a database for user record prediction
     def __repr__(self): #returns a string representation of the object
         return '<prediction %r>' % self.id
 
-class Teams(db.Model):
+class Teams(db.Model): #database for team and teamstats
     id = db.Column(db.Integer, primary_key=True)
     team = db.Column(db.String(40), nullable = False)
     teamstats = db.Column(db.String(100), nullable = False)
+    BRprediction = db.Column(db.String(20))
     date_created = db.Column(db.DateTime, default=datetime.utcnow)
 
     def __repr__(self):
@@ -44,29 +45,25 @@ def error(message):
 @app.route('/', methods=['POST', 'GET']) #gives the route options of receiving form data(post)
 def index(): #creating main route
     if request.method == 'POST': #if the route is being sent data
-        if request.form['redirect'] == 'ML':
-            return redirect('/ml_info')
-
+        team_data = Teams(team=request.form['teams'], teamstats=', '.join(team_stats(request.form['teams'])), BRprediction=BRprediction(request.form['teams']))
+        #can't send a list into a database, so turned it into a string and will turn it back into a list in the html code with jinja
+        for teamname in Teams.query.order_by(Teams.date_created).all():
+            if team_data.team == teamname.team:
+                return error('adding') #preventing duplicates
+        record = request.form['predictions']
+        if record.replace('-', '').isdigit():
+            user_pred = Record(record=record)\
+        
         else:
-            team_data = Teams(team=request.form['teams'], teamstats=', '.join(team_stats(request.form['teams'])))
-            #can't send a list into a database, so turned it into a string and will turn it back into a list in the html code with jinja
-            for teamname in Teams.query.order_by(Teams.date_created).all():
-                if team_data.team == teamname.team:
-                    return error('adding') #these lines prevent duplicates from being added
-            record = request.form['predictions']
-            if record.replace('-', '').isdigit():
-                user_pred = Record(record=record)\
-            
-            else:
-                return error('adding')
-            
-            try:
-                db.session.add(user_pred) #adding those instances to the database
-                db.session.add(team_data)
-                db.session.commit() #commiting the data to the session
-                return redirect('/') #sending user back to the page
-            except:
-                return error('adding')
+            return error('adding')
+        
+        try:
+            db.session.add(user_pred)
+            db.session.add(team_data)
+            db.session.commit() #commiting the data to the session
+            return redirect('/')
+        except:
+            return error('adding')
 
     else:
         team = Teams.query.order_by(Teams.date_created).all() #ordering the teams database in the date created
@@ -76,12 +73,9 @@ def index(): #creating main route
         return render_template('main.html', team_prediction=list(zip(team, prediction)), team_length = team, divisions=divisions, team_statistics=team_statistics) #sending the data to the page to process and show
         #variable has to be sent in as a list in order to loop over it more than once, since an iterator can only loop once
 
-@app.route('/ml_info', methods=['POST', 'GET'])
+@app.route('/ml_info')
 def machinelearning():
-    if request.method == 'POST':
-        return redirect('/')
-    else:
-        return render_template('ML_info.html')
+    return render_template('ML_info.html')
 
 @app.route('/delete/<int:id>') #routes to delete, and database's id
 def delete(id):

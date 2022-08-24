@@ -7,20 +7,63 @@
         rel="stylesheet"
         href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
         integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
-        crossorigin="anonymous"
-        />
+        crossorigin="anonymous"/>
+
         <link
         rel="stylesheet"
         href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
-        crossorigin="anonymous"
-        />
-        <div class="container">
+        crossorigin="anonymous"/>
+
+        <link rel="stylesheet" type="text/css" href="static/style.css">
+
+        <link rel="shortcut icon" href="{{ url_for('static', filename='/Images/favicon.png') }}">
+
+        <div class="row">
+            <div class="col-lg-12">
+                <h1>
+                    <img src="../static/Images/football.png" alt="football" style="width:125px; height:200px;">
+                    NFL Record Predictor
+                    <img src="../static/Images/football.png" alt="football" style="width:125px; height:200px;">
+                </h1>
+            </div>
+        </div>
+
+        <div class="container-fluid">
             {% block head %}{% endblock %} <!--jinja template-->
         </div>
     </head>
     <body>
-        <div class="container">
+        <nav class="navbar navbar-expand-sm navbar-light" style="background-color:rgb(1, 51, 105);"> <!--navbar-->
+            <div class="collapse navbar-collapse" id="navbar">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a href="/" class="nav-link" style="color: white; font-size: 25px;">
+                            Prediction
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="ml_info" class="nav-link" style="color: white; font-size: 25px;">
+                            Machine Learning
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        <div class="container-fluid">
             {% block body %}{% endblock %} <!--jinja template-->
         </div>
+
+        <footer>
+            <div class="row">
+                <div class="col-lg-6">
+                    <h2 style="text-align: center; margin-top: 5%">Developed by <a href="https://github.com/asherk7/" target="_blank">Asher Khan</a></h2>
+                </div>
+                <div class="col-lg-6">
+                    <h2 style="text-align: center; margin: 7px;">Repository can be viewed here -->
+                        <a href="https://github.com/asherk7/NFL-Record-Predictor/" target="_blank"><img src="../static/Images/github.png" alt="github" style="width:100px; height:100px;"></a>
+                    </h2>
+                </div>
+            </div>
+        </footer>
     </body>
 </html>
