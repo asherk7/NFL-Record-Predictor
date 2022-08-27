@@ -84,8 +84,8 @@ def win_loss(): #finding each teams win percentage in the previous season
     
     csv_file.close()
 
-def strength_of_schedule(): #finding each teams strength of schedule in 2022-2023
-    strength_of_schedule = requests.get('https://eatdrinkandsleepfootball.com/schedule/strength-of-schedule.html').text
+def strength_of_schedule(): #finding each teams strength of schedule in 2021-2022
+    strength_of_schedule = requests.get('https://eatdrinkandsleepfootball.com/schedule/strength-of-schedule/initial-2021.html').text
     soup = BeautifulSoup(strength_of_schedule, 'lxml')
 
     csv_file = open('strength_of_schedule.csv', 'w', newline = '')
@@ -219,5 +219,28 @@ def defensiveppg():
     for team in parser.find_all('tr'):
         teamstats = team.find_all('td')
         csv_writer.writerow([teamstats[1].text, teamstats[2].text])
+
+    csv_file.close()
+
+def specialteams():
+    source = requests.get('https://www.lineups.com/nfl/team-stats/special-teams').text
+    soup = BeautifulSoup(source, 'lxml')
+
+    csv_file = open('special_teams.csv', 'w', newline='')
+    csv_writer=csv.writer(csv_file)
+    csv_writer.writerow(['Team', 'FG%', 'Punt Yards', 'Kick Return Yards'])
+
+    parser = soup.find('tbody')
+    for team in parser.find_all('tr')[2:]:
+        counter = 0
+        statline = []
+        for stat in team.find_all('td'):
+            counter += 1
+            if counter in (1, 2, 3, 7, 9):
+                if counter == 1:
+                    statline.append(stat.text.strip()[:-3].strip())
+                else:
+                    statline.append(stat.text.strip())
+        csv_writer.writerow([statline[0], str(int(statline[1])/int(statline[2])), statline[3], statline[4]])
 
     csv_file.close()

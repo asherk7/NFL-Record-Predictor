@@ -44,6 +44,13 @@ def team_stats(teamname):
                 teamdata.append(row[1])
                 teamdata.append(row[3])
                 break
+
+    with open('data\\clean\\special_teams.csv', 'r', newline='') as csv_file:
+        csv_reader = csv.reader(csv_file)
+        for row in csv_reader:
+            if row[0] == teamname:
+                teamdata.append(str(round(float(row[1]), 2)))
+                break
     
     return teamdata #team name, ppg, defensive ppg, win percentage, strength of schedule, passing stats, rushing stats
 

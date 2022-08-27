@@ -1,0 +1,1 @@
+"""take user inputs and create record prediction using model"""

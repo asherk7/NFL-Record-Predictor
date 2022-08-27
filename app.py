@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
-from teamdata import team_stats, BRprediction
+from scripts.teamdata import team_stats, BRprediction
 
 app = Flask(__name__) #references this file
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///prediction.db' #creates database
@@ -50,13 +50,16 @@ def index(): #creating main route
         for teamname in Teams.query.order_by(Teams.date_created).all():
             if team_data.team == teamname.team:
                 return error('adding') #preventing duplicates
-        record = request.form['predictions']
-        if record.replace('-', '').isdigit():
-            user_pred = Record(record=record)\
-        
-        else:
+
+        wins = request.form['wins']
+        losses = request.form['losses']
+        ties = request.form['ties']
+        if (int(wins) + int(losses) + int(ties)) != 17:
             return error('adding')
-        
+        else:
+            record = f'{wins}-{losses}-{ties}'
+            user_pred = Record(record=record)
+
         try:
             db.session.add(user_pred)
             db.session.add(team_data)
@@ -76,6 +79,10 @@ def index(): #creating main route
 @app.route('/ml_info')
 def machinelearning():
     return render_template('ML_info.html')
+
+@app.route('/user_prediction', methods=['POST', 'GET'])
+def user_pred():
+    return render_template('user_pred.html')
 
 @app.route('/delete/<int:id>') #routes to delete, and database's id
 def delete(id):

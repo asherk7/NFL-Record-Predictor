@@ -8,18 +8,19 @@
 <div class="stats">
     {% if team_length|length > 0 %}
     {% set stats = team_statistics[-1].teamstats.split(', ') %} <!--turning the string back into a list, use percent sign and set command-->
-    <h2>{{ stats[0] }}</h2>
+    <h2 style="font-family: Jazz LET, fantasy">{{ stats[0] }}'s 2021-2022 season stats</h2>
     <table class="table">
         <thead>
             <tr>
                 <th>Offensive PPG</th>
-                <th>Defensive PPG</th>
+                <th>Defensive Points Allowed</th>
                 <th>Win %</th>
                 <th>Strength of Schedule</th>
                 <th>Pass Yds</th>
                 <th>Pass TD</th>
                 <th>Rush Yds</th>
                 <th>Rush TD</th>
+                <th>FG %</th>
             </tr>
         </thead>
         <tbody>
@@ -37,7 +38,7 @@
     {% endif %}
     
     {% if team_length|length < 1 %}
-        <h3>Add a prediction in the format of W-L-T using numbers and dashes only</h3>
+        <h3>Add a prediction in the format of W-L-T using numbers only</h3>
     {% else %}
         <table class="table table-bordered">
             <thead>
@@ -195,9 +196,12 @@
                 <option value="Washington Commanders">Washington Commanders</option>
             </select>
         </div>
-        <!--make it so that its type is number, max is 17, min is 0, style is text-align: center-->
-        <!--have 3 boxes for win draw tie, send these numbers back in 1 message to look like an actual record(#-#-#)-->
-        <input type="text" name="predictions" id="predictions" placeholder="eg. 13-4-0" required>
+        <label for="wins"><small>Wins</small></label>
+        <input type="number" name="wins" id="wins" placeholder="eg. 13" max="17" min="0" required>
+        <label for="losses"><small>Losses</small></label>
+        <input type="number" name="losses" id="losses" placeholder="eg. 3" max="17" min="0" required>
+        <label for="ties"><small>Ties</small></label>
+        <input type="number" name="ties" id="ties" placeholder="eg. 1" max="17" min="0" required>
         <input type="submit" name="redirect" value="add prediction" style="background-color:rgb(123, 180, 240)">
     </form>
 </div>
