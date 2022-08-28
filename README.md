@@ -1,12 +1,14 @@
 # NFL Record Predictor: Project Overview 
 #### Project Status: Deployed
 
+[NFL Record Predictor]()
+
 * Created a tool that predicts each NFL team's record for the upcoming 2022-2023 season
 * Scraped the data for each NFL team from multiple sources using Python and BeautifulSoup4
 * Created a website using HTML, CSS, Jinja2, and Bootstrap4 to display the calculated predictions vs football analysts, and data
 * Created a database with SQLAlchemy and SQlite to store user inputs
 * Used the Decision Tree Regression Machine Learning model to predict each team's record
-* Built a full-stack website using Flask and deployed it using Heroku
+* Built a full-stack website using Flask and deployed it using Zeet
 
 ## Code and Resources Used 
 **Technologies:** python, html, css, bootstrap4, api  
@@ -60,14 +62,14 @@ The Decision Tree Regression model had an MAE(Mean Absolute Error) around 7%, wh
 * I learned how to implement and work with databases using SQLAlchemy
 * I learned how to work with and connect a front-end and back-end
 * I learned how to use Jinja2 and implement Bootstrap4 templates
-* I learned how to deploy a website using Heroku
+* I learned how to deploy a website using Zeet
 * I learned how to create machine learning models using Sci-kit Learn
 * I became more familiar with HTML and CSS
 * I became more familiar with the pandas package
 * I became more knowledgeable with GIT
 
 ## Productionization
-* The website is being deployed using Heroku
+* The website is being deployed using Zeet
 
 ## Creator
 * Created this project [myself](https://github.com/asherk7) using previous knowledge and tutorials of the basics, and built upon that foundation to complete the final product

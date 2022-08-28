@@ -5,6 +5,7 @@ from scripts.teamdata import team_stats, BRprediction, MLstats
 from scripts import predictor
 
 app = Flask(__name__) #references this file
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///prediction.db' #creates database
 db = SQLAlchemy(app) #initializes database with file
 divisions = [
@@ -118,4 +119,4 @@ def delete(id):
 if __name__ == '__main__':
     db.drop_all() #resets the database
     db.create_all()
-    app.run(debug=True)
+    app.run(debug=False, host='0.0.0.0', port=5000)
