@@ -29,6 +29,6 @@ train_X, val_X, train_y, val_y = train_test_split(X, y)
 
 data_model = DecisionTreeRegressor()
 data_model.fit(train_X,train_y)
-joblib.dump(data_model, "Models\\DTR_model.model") #model selected had an MAE of less than 1 (8.881784197001252e-16)
+joblib.dump(data_model, "models\\DTR_model.model") #model selected had an MAE of less than 1 (8.881784197001252e-16)
 val_pred = data_model.predict(val_X)
 print(mean_absolute_error(val_y, val_pred))

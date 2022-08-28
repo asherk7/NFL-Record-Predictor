@@ -6,7 +6,7 @@ from scripts.teamdata import predictorinfo
 
 class Predictor:
     def __init__(self, team, defppg, offppg, passtd, passyrd, rushyrd, ypc, rushtd, interception, fumble):
-        self.model = joblib.load('Models\\DTR_model.model')
+        self.model = joblib.load('models\\DTR_model.model')
         teamstats = predictorinfo(team)
         self.team=team
         self.schedule = teamstats[0] #schedule for 2022-2023
