@@ -1,5 +1,5 @@
 # NFL Record Predictor: Project Overview 
-#### Project Status: Active
+#### Project Status: Deployed
 
 * Created a tool that predicts each NFL team's record for the upcoming 2022-2023 season
 * Scraped the data for each NFL team from multiple sources using Python and BeautifulSoup4
@@ -10,7 +10,7 @@
 
 ## Code and Resources Used 
 **Technologies:** python, html, css, bootstrap4, api  
-**Packages:** flask, sklearn, pandas, sqlalchemy, beautifulsoup4, requests, csv, json  
+**Packages:** flask, sklearn, pandas, glob, os, sqlalchemy, beautifulsoup4, requests, csv, json, joblib, datetime  
 **Flask:** https://www.youtube.com/watch?v=Z1RJmh_OqeA&ab_channel=freeCodeCamp.org  
 **Machine Learning:** https://www.kaggle.com/learn/intro-to-machine-learning  
 **Web Scraping:** https://www.youtube.com/watch?v=ng2o98k983k&ab_channel=CoreySchafer  
@@ -22,7 +22,7 @@ Used the web scraper above to scrape data for each NFL team, getting the followi
 * Team name
 * Average age
 * Record Prediction by Bleacher Report
-* Strength of Schedule
+* Strength of Schedule (2021 & 2022)
 * Money spent on each position(QB, WR, RB, OL, CB, LB, S, DL)
 * Money spent on offense and defense
 * Offensive PPG
@@ -35,20 +35,22 @@ Used the web scraper above to scrape data for each NFL team, getting the followi
 * Receiving Yards and Touchdowns
 * Rushing Yards and Touchdowns
 * Team Win Percentage(2021)
+* Field Goal Percentage
+* Punt and Kickoff Return Yards
 * Interceptions, Sacks, Sack Yards, Fumbles
 
 ## Data Cleaning
 After scraping the data, I cleaned it so it would be easily usable for the model. The following changes were made:
 * Changed the names of some teams so that it matched with all files
 * Sorted each CSV file by team name in alphabetical order
-* Removed commas from numbers
+* Fixed number formatting
 
 ## Model Building
 First, I split the data into training and validation sets using train_test_split to see if the model was accurate with the data provided.
 
 I then used the Multiple Linear Regression and Decision Tree Regression model and evaluated them using Mean Absolute Error to find which model was the most accurate.
 
-The Decision Tree Regression model had an MAE(Mean Absolute Error) around 8%, while the Multiple Linear Regression model had an MAE around 15%, which lead me to using the Decision Tree Regression model since it had more than half the error rate.
+The Decision Tree Regression model had an MAE(Mean Absolute Error) around 7%, while the Multiple Linear Regression model had an MAE around 15%, which lead me to use the Decision Tree Regression model since it had less than half the error rate.
 
 ## Skills Learned
 * I learned how to scrape data from websites using BeautifulSoup4

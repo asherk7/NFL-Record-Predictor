@@ -5,7 +5,122 @@
 {% endblock %}
 
 {% block body %}
-have the user enter statistics here(same one used in model) and send it to a file
-that file will get the prediction and send to app.py, then app.py sends back here
-using post requests
+<div class="user_pred">
+    {% if record is defined %}
+        <h2>The predicted record is {{ record }}</h2>
+        <h4>Statistics entered for {{ user_pred.team }}</h4>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Offensive PPG</th>
+                    <th>Defensive PPG</th>
+                    <th>Passing Touchdowns</th>
+                    <th>Passing Yards</th>
+                    <th>Rushing Yards</th>
+                    <th>Yards Per Carry</th>
+                    <th>Rushing Touchdowns</th>
+                    <th>Interceptions</th>
+                    <th>Fumbles</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{ user_pred.offppg }}</td>
+                    <td>{{ user_pred.defppg }}</td>
+                    <td>{{ user_pred.passtd }}</td>
+                    <td>{{ user_pred.passyrd }}</td>
+                    <td>{{ user_pred.rushyrd }}</td>
+                    <td>{{ user_pred.ypc }}</td>
+                    <td>{{ user_pred.rushtd }}</td>
+                    <td>{{ user_pred.interception }}</td>
+                    <td>{{ user_pred.fumble }}</td>
+                </tr>
+            </tbody>
+        </table>
+    {% endif %}
+
+    <form action="/user_prediction" method="POST">
+        <div class="col-sm-3" style="margin: auto">
+            <label for="teams">Choose a team:</label>
+            <select name="teams" id="teams" class="form-control" style="text-align: center" autocomplete="on">
+                <option value="Arizona Cardinals">Arizona Cardinals</option>
+                <option value="Atlanta Falcons">Atlanta Falcons</option>
+                <option value="Baltimore Ravens">Baltimore Ravens</option>
+                <option value="Buffalo Bills">Buffalo Bills</option>
+                <option value="Carolina Panthers">Carolina Panthers</option>
+                <option value="Chicago Bears">Chicago Bears</option>
+                <option value="Cincinnati Bengals">Cincinnati Bengals</option>
+                <option value="Cleveland Browns">Cleveland Browns</option>
+                <option value="Dallas Cowboys">Dallas Cowboys</option>
+                <option value="Denver Broncos">Denver Broncos</option>
+                <option value="Detroit Lions">Detroit Lions</option>
+                <option value="Green Bay Packers">Green Bay Packers</option>
+                <option value="Houston Texans">Houston Texans</option>
+                <option value="Indianapolis Colts">Indianapolis Colts</option>
+                <option value="Jacksonville Jaguars">Jacksonville Jaguars</option>
+                <option value="Kansas City Chiefs">Kansas City Chiefs</option>
+                <option value="Las Vegas Raiders">Las Vegas Raiders</option>
+                <option value="Los Angeles Chargers">Los Angeles Chargers</option>
+                <option value="Los Angeles Rams">Los Angeles Rams</option>
+                <option value="Miami Dolphins">Miami Dolphins</option>
+                <option value="Minnesota Vikings">Minnesota Vikings</option>
+                <option value="New England Patriots">New England Patriots</option>
+                <option value="New Orleans Saints">New Orleans Saints</option>
+                <option value="New York Giants">New York Giants</option>
+                <option value="New York Jets">New York Jets</option>
+                <option value="Philadelphia Eagles">Philadelphia Eagles</option>
+                <option value="Pittsburgh Steelers">Pittsburgh Steelers</option>
+                <option value="San Francisco 49ers">San Francisco 49ers</option>
+                <option value="Seattle Seahawks">Seattle Seahawks</option>
+                <option value="Tampa Bay Buccaneers">Tampa Bay Buccaneers</option>
+                <option value="Tennessee Titans">Tennessee Titans</option>
+                <option value="Washington Commanders">Washington Commanders</option>
+            </select>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-4">
+                <label for="offppg"><small>Offensive PPG</small></label>
+                <input type="number" name="offppg" id="offppg" placeholder="eg. 25.7" max="60" min="0" step="0.1" required>
+            </div>
+            <div class="col-sm-4">
+                <label for="defppg"><small>Defensive PPG</small></label>
+                <input type="number" name="defppg" id="defppg" placeholder="eg. 17.2" max="60" min="0" step="0.1" required>
+            </div>
+            <div class="col-sm-4">
+                <label for="passtd"><small>Passing Touchdowns</small></label>
+                <input type="number" name="passtd" id="passtd" placeholder="eg. 43" max="100" min="0" required>
+            </div>
+            <div class="w-100"></div> <!--creates a new line for columns-->
+            <div class="col-sm-4">
+                <label for="passyrd"><small>Passing Yards</small></label>
+                <input type="number" name="passyrd" id="passyrd" placeholder="eg. 4700" max="7000" min="0" required>
+            </div>
+            <div class="col-sm-4">
+                <label for="rushyrd"><small>Rushing Yards</small></label>
+                <input type="number" name="rushyrd" id="rushyrd" placeholder="eg. 1400" max="4500" min="0" required>
+            </div>
+            <div class="col-sm-4">
+                <label for="ypc"><small>Yards per Carry</small></label>
+                <input type="number" name="ypc" id="ypc" placeholder="eg. 5.7" max="20" min="0" step="0.1" required>
+            </div>
+            <div class="w-100"></div>
+            <div class="col-sm-4">
+                <label for="rushtd"><small>Rushing Touchdowns</small></label>
+                <input type="number" name="rushtd" id="rushtd" placeholder="eg. 19" max="50" min="0" step="0.1" required>
+            </div>
+            <div class="col-sm-4">
+                <label for="int"><small>Interceptions Thrown</small></label>
+                <input type="number" name="int" id="int" placeholder="eg. 14" max="60" min="0" required>
+            </div>
+            <div class="col-sm-4">
+                <label for="fumble"><small>Fumbles</small></label>
+                <input type="number" name="fumble" id="fumble" placeholder="eg. 8" max="30" min="0" required>
+            </div>
+        </div>
+
+        <input type="submit" name="redirect" value="add prediction" style="background-color:rgb(123, 180, 240)">
+    </form>
+    <p>For each team, advanced statistics are used in the model that aren't shown, such as total spending for offense, special team stats, strength of schedule, and more</p>
+</div>
 {% endblock %}

@@ -1,7 +1,8 @@
 from flask import Flask, render_template, request, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
-from scripts.teamdata import team_stats, BRprediction
+from scripts.teamdata import team_stats, BRprediction, MLstats
+from scripts import predictor
 
 app = Flask(__name__) #references this file
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///prediction.db' #creates database
@@ -20,6 +21,7 @@ divisions = [
 class Record(db.Model): #database for user record prediction
     id = db.Column(db.Integer, primary_key=True)
     record = db.Column(db.String(200), nullable = False)
+    ML_record = db.Column(db.String(50))
     date_created = db.Column(db.DateTime, default=datetime.utcnow)
 
     def __repr__(self): #returns a string representation of the object
@@ -51,6 +53,11 @@ def index(): #creating main route
             if team_data.team == teamname.team:
                 return error('adding') #preventing duplicates
 
+        ML_stats = MLstats(request.form['teams'])
+        ML_pred = predictor.Predictor(ML_stats[0], ML_stats[1], ML_stats[2], ML_stats[3], ML_stats[4], 
+                                        ML_stats[5], ML_stats[6], ML_stats[7], ML_stats[8], ML_stats[9])
+        ML_record = ML_pred.get_prediction()
+
         wins = request.form['wins']
         losses = request.form['losses']
         ties = request.form['ties']
@@ -58,7 +65,7 @@ def index(): #creating main route
             return error('adding')
         else:
             record = f'{wins}-{losses}-{ties}'
-            user_pred = Record(record=record)
+            user_pred = Record(record=record, ML_record = ML_record)
 
         try:
             db.session.add(user_pred)
@@ -76,13 +83,25 @@ def index(): #creating main route
         return render_template('main.html', team_prediction=list(zip(team, prediction)), team_length = team, divisions=divisions, team_statistics=team_statistics) #sending the data to the page to process and show
         #variable has to be sent in as a list in order to loop over it more than once, since an iterator can only loop once
 
-@app.route('/ml_info')
-def machinelearning():
-    return render_template('ML_info.html')
-
 @app.route('/user_prediction', methods=['POST', 'GET'])
 def user_pred():
-    return render_template('user_pred.html')
+    if request.method == 'POST':
+        team = request.form['teams']
+        offppg = request.form['offppg']
+        defppg = request.form['defppg']
+        passtd = request.form['passtd']
+        passyrd = request.form['passyrd']
+        rushyrd = request.form['rushyrd']
+        ypc = request.form['ypc']
+        rushtd = request.form['rushtd']
+        interception = request.form['int']
+        fumble = request.form['fumble']
+        user_pred = predictor.Predictor(team, defppg, offppg, passtd, passyrd, 
+                                        rushyrd, ypc, rushtd, interception, fumble)
+        record = user_pred.get_prediction()
+        return render_template('user_pred.html', record=record, user_pred=user_pred)
+    else:
+        return render_template('user_pred.html')
 
 @app.route('/delete/<int:id>') #routes to delete, and database's id
 def delete(id):

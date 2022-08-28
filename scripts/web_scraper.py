@@ -99,6 +99,21 @@ def strength_of_schedule(): #finding each teams strength of schedule in 2021-202
     
     csv_file.close()
 
+def strength_of_schedule2022(): #finding each teams strength of schedule in 2022-2023
+    strength_of_schedule = requests.get('https://eatdrinkandsleepfootball.com/schedule/strength-of-schedule/').text
+    soup = BeautifulSoup(strength_of_schedule, 'lxml')
+
+    csv_file = open('strength_of_schedule2022.csv', 'w', newline = '')
+    csv_writer = csv.writer(csv_file)
+    csv_writer.writerow(['Team', 'Strength of Schedule']) 
+
+    parser = soup.find('div', id='content')
+    for team in parser.find_all('tr'):
+        team_strength = [team.find_all('td')[1].text, team.find_all('td')[3].text] #find_all returns a list, so indexing is used to find the specific values
+        csv_writer.writerow(team_strength)
+    
+    csv_file.close()
+
 def team_receiving(): #finding the receiving stats of each team
     csv_file = open('team_receiving.csv', 'w', newline = '')
     csv_writer = csv.writer(csv_file)
