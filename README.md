@@ -9,6 +9,7 @@
 * Created a database with SQLAlchemy and SQlite to store user inputs
 * Used the Decision Tree Regression Machine Learning model to predict each team's record
 * Built a full-stack website using Flask and deployed it using pythonanywhere
+* The deployed model predicted the records with an accuracy of 83%, and an average margin of error of 1.7 wins per team
 
 ## Code and Resources Used 
 **Technologies:** python, html, css, bootstrap4, api  
